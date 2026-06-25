@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
@@ -60,3 +62,10 @@ def login_user(request):
     serializer.errors,
     status=status.HTTP_400_BAD_REQUEST,
 )
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    serializer = UserSerializer(request.user)
+
+    return Response(serializer.data)
