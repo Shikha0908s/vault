@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import create_transaction
+from .views import TransactionListCreateView
 
 urlpatterns = [
-    path("", create_transaction),
+    path("", TransactionListCreateView.as_view(), name="transactions"),
 ]
