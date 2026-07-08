@@ -29,7 +29,7 @@ function Login() {
             <div className="w-full max-w-md rounded-2xl bg-slate-800 p-8 shadow-xl">
 
                 <h1 className="text-3xl font-bold text-white mb-6">
-                    Welcome Back 👋
+                    Welcome Back!
                 </h1>
 
                 <form
