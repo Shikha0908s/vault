@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/layout/Sidebar";
 import SummaryCard from "../components/dashboard/SummaryCard";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
+import BudgetProgress from "../components/dashboard/BudgetProgress";
 import api from "../services/api";
 
 function Dashboard() {
     const [summary, setSummary] = useState(null);
+    const [budgets, setBudgets] = useState([]);
 
     const fetchDashboard = async () => {
         try {
@@ -16,8 +18,18 @@ function Dashboard() {
         }
     };
 
+    const fetchBudgets = async () => {
+        try {
+            const response = await api.get("/budgets/");
+            setBudgets(response.data);
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+        }
+    };
+
     useEffect(() => {
         fetchDashboard();
+        fetchBudgets();
     }, []);
 
     if (!summary) {
@@ -76,11 +88,15 @@ function Dashboard() {
                     <div className="grid grid-cols-3 gap-6 mt-8">
 
                         <div className="col-span-2">
-
                             <RecentTransactions
                                 transactions={summary.recent_transactions}
                             />
+                        </div>
 
+                        <div>
+                            <BudgetProgress
+                                budgets={budgets}
+                            />
                         </div>
 
                     </div>
