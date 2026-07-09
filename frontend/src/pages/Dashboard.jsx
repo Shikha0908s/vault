@@ -3,6 +3,8 @@ import Sidebar from "../components/layout/Sidebar";
 import SummaryCard from "../components/dashboard/SummaryCard";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
 import BudgetProgress from "../components/dashboard/BudgetProgress";
+import ExpenseChart from "../components/dashboard/ExpenseChart";
+import MonthlyTrend from "../components/dashboard/MonthlyTrend";
 import api from "../services/api";
 
 function Dashboard() {
@@ -100,6 +102,24 @@ function Dashboard() {
                         </div>
 
                     </div>
+                    <div className="grid grid-cols-3 gap-6 mt-8">
+
+                        <div className="col-span-2">
+                            <ExpenseChart
+                                data={summary.category_breakdown}
+                            />
+                        </div>
+
+                        <div>
+                            <div>
+                                <MonthlyTrend
+                                    data={summary.monthly_trend}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+
 
                 </main>
 
