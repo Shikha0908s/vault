@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/layout/Sidebar";
 import TransactionTable from "../components/transactions/TransactionTable";
+import AddTransactionModal from "../components/transactions/AddTransactionModal";
 import api from "../services/api";
 
 function Transactions() {
@@ -14,6 +15,29 @@ function Transactions() {
         } catch (error) {
             console.error(error.response?.data || error.message);
         }
+    };
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+
+    const deleteTransaction = async (id) => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this transaction?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await api.delete(`/transactions/${id}/`);
+
+            fetchTransactions();
+
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+        }
+    };
+    const editTransaction = (transaction) => {
+        setSelectedTransaction(transaction);
+        setShowModal(true);
     };
 
     useEffect(() => {
@@ -35,7 +59,10 @@ function Transactions() {
                             Transactions
                         </h1>
 
-                        <button className="bg-emerald-500 text-white px-5 py-3 rounded-xl hover:bg-emerald-600 transition">
+                        <button
+                            onClick={() => setShowModal(true)}
+                            className="bg-emerald-500 text-white px-5 py-3 rounded-xl hover:bg-emerald-600 transition"
+                        >
                             + Add Transaction
                         </button>
 
@@ -43,12 +70,28 @@ function Transactions() {
                     <div className="mt-8">
                         <TransactionTable
                             transactions={transactions}
+                            onDelete={deleteTransaction}
+                            onEdit={editTransaction}
                         />
                     </div>
 
                 </main>
 
             </div>
+
+                <AddTransactionModal
+                    isOpen={showModal}
+                    onClose={() => {
+                        setShowModal(false);
+                        setSelectedTransaction(null);
+                    }}
+                    transaction={selectedTransaction}
+                    onTransactionAdded={() => {
+                        fetchTransactions();
+                        setShowModal(false);
+                        setSelectedTransaction(null);
+                    }}
+                />
 
         </div>
     );

@@ -1,5 +1,5 @@
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
-function TransactionTable({ transactions }) {
+function TransactionTable({ transactions,onDelete, onEdit, }) {
     return (
         <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
 
@@ -84,6 +84,7 @@ function TransactionTable({ transactions }) {
                                 <div className="flex justify-center gap-2">
 
                                     <button
+                                        onClick={() => onEdit(transaction)}
                                         className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-emerald-100 hover:text-emerald-600 transition"
                                         title="Edit"
                                     >
@@ -91,6 +92,7 @@ function TransactionTable({ transactions }) {
                                     </button>
 
                                     <button
+                                        onClick={() => onDelete(transaction.id)}
                                         className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-red-100 hover:text-red-600 transition"
                                         title="Delete"
                                     >
