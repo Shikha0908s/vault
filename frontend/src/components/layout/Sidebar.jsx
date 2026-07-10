@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
     FiGrid,
     FiCreditCard,
@@ -9,12 +10,36 @@ import {
 } from "react-icons/fi";
 
 const menuItems = [
-    { name: "Dashboard", icon: <FiGrid /> },
-    { name: "Transactions", icon: <FiCreditCard /> },
-    { name: "Budgets", icon: <FiPieChart /> },
-    { name: "Analytics", icon: <FiBarChart2 /> },
-    { name: "Goals", icon: <FiTarget /> },
-    { name: "Settings", icon: <FiSettings /> },
+    {
+        name: "Dashboard",
+        path: "/dashboard",
+        icon: <FiGrid />,
+    },
+    {
+        name: "Transactions",
+        path: "/transactions",
+        icon: <FiCreditCard />,
+    },
+    {
+        name: "Budgets",
+        path: "/budgets",
+        icon: <FiPieChart />,
+    },
+    {
+        name: "Analytics",
+        path: "/analytics",
+        icon: <FiBarChart2 />,
+    },
+    {
+        name: "Goals",
+        path: "/goals",
+        icon: <FiTarget />,
+    },
+    {
+        name: "Settings",
+        path: "/settings",
+        icon: <FiSettings />,
+    },
 ];
 
 function Sidebar() {
@@ -30,19 +55,24 @@ function Sidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 space-y-2">
-                {menuItems.map((item, index) => (
-                    <button
-                        key={index}
-                        className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all
-                        ${
-                            item.name === "Dashboard"
-                                ? "bg-emerald-100 text-emerald-700 font-semibold"
-                                : "hover:bg-slate-100 text-slate-600"
-                        }`}
+                {menuItems.map((item) => (
+                    <NavLink
+                        key={item.name}
+                        to={item.path}
+                        className={({ isActive }) =>
+                            `w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
+                                isActive
+                                    ? "bg-emerald-100 text-emerald-700 font-semibold"
+                                    : "text-slate-600 hover:bg-slate-100"
+                            }`
+                        }
                     >
-                        <span className="text-xl">{item.icon}</span>
+                        <span className="text-xl">
+                            {item.icon}
+                        </span>
+
                         {item.name}
-                    </button>
+                    </NavLink>
                 ))}
             </nav>
 
@@ -52,10 +82,9 @@ function Sidebar() {
                     <div>
                         <p className="font-semibold">Shikha</p>
                         <p className="text-sm text-slate-500">
-                            Welcome back 👋
+                            Welcome back!
                         </p>
                     </div>
-
                     <button className="text-red-500 text-xl">
                         <FiLogOut />
                     </button>
